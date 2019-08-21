@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -28,34 +30,50 @@ import lombok.Setter;
     )
 @Getter
 @Setter
+@ApiModel(value = "Schedule Расписание")
 public class Schedule implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @ApiModelProperty(value = "ID расписания", required = true, position = 1, example = "1")
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "subject_id")
+    @ApiModelProperty(value = "Предмет расписания", required = true, position = 1, example = "1")
     private Subject subject;
+
     @ManyToOne
     @JoinColumn(name = "group_id")
+    @ApiModelProperty(value = "Группа расписания", required = true, position = 1, example = "1")
     private Group group;
+
     @ManyToOne
     @JoinColumn(name = "teacher_id")
+    @ApiModelProperty(value = "Преподаватель расписания", required = true, position = 1, example = "1")
     private Teacher teacher;
+
     @ManyToOne
     @JoinColumn(name = "classroom_id")
+    @ApiModelProperty(value = "Аудитория расписания", required = true, position = 1, example = "1")
     private Classroom classroom;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "day_of_week")
     @Type( type = "pgsql_enum" )
+    @ApiModelProperty(value = "День недели расписания", required = true, position = 1, example = "1")
     private DayOfWeek dayOfWeek;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "parity")
     @Type( type = "pgsql_enum" )
+    @ApiModelProperty(value = "Четночсть недели расписания", required = true, position = 1, example = "1")
     private Parity parity;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "lesson")
     @Type( type = "pgsql_enum" )
+    @ApiModelProperty(value = "Порядковый номер занятия расписания", required = true, position = 1, example = "1")
     private Lesson lesson;
     
     public Schedule() {
