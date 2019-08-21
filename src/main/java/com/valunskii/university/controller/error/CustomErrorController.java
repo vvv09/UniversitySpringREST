@@ -1,4 +1,4 @@
-package com.valunskii.university.controller;
+package com.valunskii.university.controller.error;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;

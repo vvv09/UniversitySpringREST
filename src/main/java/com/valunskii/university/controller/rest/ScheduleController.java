@@ -1,11 +1,14 @@
-package com.valunskii.university.controller;
+package com.valunskii.university.controller.rest;
 
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
@@ -19,6 +22,7 @@ import com.valunskii.university.repository.TeacherRepository;
 
 @RestController
 @CrossOrigin
+@Api(tags = {"ScheduleController"}, description = "Расписание", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequestMapping("/schedule")
 public class ScheduleController {
     
@@ -44,7 +48,8 @@ public class ScheduleController {
     public void setScheduleRepo(ScheduleRepository scheduleRepo) {
         this.scheduleRepo = scheduleRepo;
     }
-    
+
+    @ApiOperation(value = "Получить полное расписание", notes = "Возвращает расписание полностью", produces = MediaType.APPLICATION_JSON_VALUE, hidden = false)
     @GetMapping
     public List<Schedule> retriveAll(WebRequest webRequest) {
         Map<String, String[]> params = webRequest.getParameterMap();
@@ -68,7 +73,8 @@ public class ScheduleController {
             }
         }
     }
-    
+
+    @ApiOperation(value = "Получить расписание группы", notes = "Возвращает расписание для данной группы", produces = MediaType.APPLICATION_JSON_VALUE, hidden = false)
     @GetMapping("/group/{group}")
     public List<Schedule> retriveScheduleForGroup(@PathVariable Group group, WebRequest webRequest) {
         Map<String, String[]> params = webRequest.getParameterMap();
@@ -92,7 +98,8 @@ public class ScheduleController {
             }
         }
     }
-    
+
+    @ApiOperation(value = "Получить расписание преподавателя", notes = "Возвращает расписание для данного преподавателя", produces = MediaType.APPLICATION_JSON_VALUE, hidden = false)
     @GetMapping("/teacher/{teacher}")
     public List<Schedule> retriveScheduleForTeacher(@PathVariable Teacher teacher, WebRequest webRequest) {
         Map<String, String[]> params = webRequest.getParameterMap();
@@ -116,12 +123,15 @@ public class ScheduleController {
             }
         }
     }
-    
+
+    @ApiOperation(value = "Создать элемент Расписание (Schedule)", notes = "Создает элемент", produces = MediaType.APPLICATION_JSON_VALUE, hidden = false)
     @PostMapping
     public Schedule create(@RequestBody Schedule schedule) {
         return scheduleRepo.save(schedule);
     }
-    
+
+
+    @ApiOperation(value = "Обновить элемент Расписание (Schedule)", notes = "Обновляет элемент по ID", produces = MediaType.APPLICATION_JSON_VALUE, hidden = false)
     @PutMapping("{id}")
     public Schedule update(
             @PathVariable("id") Schedule scheduleFromDb,
@@ -130,7 +140,8 @@ public class ScheduleController {
         BeanUtils.copyProperties(schedule, scheduleFromDb, "id");
         return scheduleRepo.save(scheduleFromDb);
     }
-    
+
+    @ApiOperation(value = "Удалить элемент Расписание (Schedule)", notes = "Удаляет элемент по ID", produces = MediaType.APPLICATION_JSON_VALUE, hidden = false)
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Schedule schedule) {
         scheduleRepo.delete(schedule);
